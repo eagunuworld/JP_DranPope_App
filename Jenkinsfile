@@ -50,7 +50,7 @@ pipeline{
         script {
           parallel(
             "working": {
-              sh "printevn"
+              sh "printenv"
             },
             "build jar packages": {
                 sh './mvnw install'
