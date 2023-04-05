@@ -88,6 +88,17 @@ pipeline{
          }
      }
 
+  stage('Push Docker Image To DockerHub') {
+        steps {
+            withCredentials([string(credentialsId: 'eagunworld_jfrog_passwordID', variable: 'eagunworld_jfrog_passwordDP')])  {
+              sh "docker login -u admin -p ${eagunworld_jfrog_passwordID} "
+              sh 'docker build -t ${REGISTRY}:${VERSION} .'
+                }
+                 sh 'docker push ${REGISTRY}:${VERSION}'
+              }
+          }
+ 
+
   stage('RemoveResources') {  
       steps {
          parallel(
