@@ -80,13 +80,19 @@ pipeline{
             steps{
                sh 'trivy image localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan-$BUILD_NUMBER.txt'
             }
+        }
+
+  stage('Uploading Image Scan to Jrog Artifactory'){
+         steps{
+          sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token  ${JFROG_TOKEN} trivy-image-scan-$BUILD_NUMBER.txt oi_java_web_app/'           
+         }
      }
 
   stage('RemoveResources') {  
       steps {
          parallel(
                "KillProcesses": {
-                    sh "docker ps -aq | xargs docker rm -f" 
+                    sh "docker rmi localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER" 
                   },
                  "RemoveDockerImages": {
                   sh 'docker rmi  -f $(docker images -q)'
