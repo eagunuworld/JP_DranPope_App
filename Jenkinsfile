@@ -45,8 +45,7 @@ pipeline{
       }
     }
 
-
-      stage('Build Jar codes') {
+  stage('Build Jar codes') {
       steps {
         script {
           parallel(
@@ -68,6 +67,15 @@ pipeline{
           }
         }
   
+  stage('Building Docker Image'){
+          steps{
+              sh '''
+              docker build -t localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER --pull=true .
+              docker images
+              '''
+          }
+      }
+
 
    }
 }
