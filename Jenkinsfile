@@ -17,6 +17,7 @@ pipeline{
               NODE_NAME = "${env.NODE_NAME}"
               REGISTRY = 'eagunuworld/drain-pepo'
               REGISTRY_CREDENTIAL = 'eagunuworld_dockerhub_creds'
+              JFROG_TOKEN = 'jfrog_artifactory_access_west_north_tokenID'
             }
 
     stages {
@@ -49,7 +50,7 @@ pipeline{
         script {
           parallel(
             "working": {
-              sh "pwd"
+              sh "printevn"
             },
             "build jar packages": {
                 sh './mvnw install'
@@ -62,7 +63,7 @@ pipeline{
 
   stage('Upload Binaries to Jfrog Artifactory') {
         steps {
-        sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token ${jfrog_artifactory_access_west_north_tokenID} target/demo-0.0.1-SNAPSHOT.jar oi_java_web_app/'
+        sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token ${JFROG_TOKEN} target/demo-0.0.1-SNAPSHOT.jar oi_java_web_app/'
           }
         }
   
