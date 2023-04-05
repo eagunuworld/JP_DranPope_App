@@ -27,27 +27,45 @@ pipeline{
                    }
                 }
 
-      stage('Permission_build Jar codes') {
+      stage('Files and Permissions') {
       steps {
         script {
           parallel(
             "mvnw permission": {
               sh "sudo chmod +rwx mvnw"
             },
-            "build jar packages": {
-                sh './mvnw install'
+            "Displaying files": {
+                sh 'ls -lart'
             }
           )
-      stage('Upload Binaries to Jfrog Artifactory') {
-        steps {
-        sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token ${jfrog_artifactory_access_west_north_tokenID} target/demo-0.0.1-SNAPSHOT.jar oi_java_web_app/'
-          }
-        }
 
         }
       }
     }
 
+
+      stage('Build Jar codes') {
+      steps {
+        script {
+          parallel(
+            "working": {
+              sh "pwd"
+            },
+            "build jar packages": {
+                sh './mvnw install'
+            }
+          )
+
+        }
+      }
+    }
+
+  stage('Upload Binaries to Jfrog Artifactory') {
+        steps {
+        sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token ${jfrog_artifactory_access_west_north_tokenID} target/demo-0.0.1-SNAPSHOT.jar oi_java_web_app/'
+          }
+        }
+  
 
    }
 }
