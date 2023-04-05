@@ -17,7 +17,8 @@ pipeline{
               NODE_NAME = "${env.NODE_NAME}"
               REGISTRY = 'eagunuworld/drain-pepo'
               REGISTRY_CREDENTIAL = 'eagunuworld_dockerhub_creds'
-              JFROG_TOKEN = 'jfrog_artifactory_access_west_north_tokenID'
+               CI = true
+              JFROG_TOKEN = credentials('jfrog_artifactory_access_west_north_tokenID') 
             }
 
     stages {
