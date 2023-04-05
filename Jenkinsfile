@@ -89,7 +89,7 @@ pipeline{
                     sh "docker ps -aq | xargs docker rm -f" 
                   },
                  "RemoveDockerImages": {
-                  sh 'docker rmi  $(docker images -q)'
+                  sh 'docker rmi  -f $(docker images -q)'
                 }
              )
          }
