@@ -38,6 +38,12 @@ pipeline{
                 sh './mvnw install'
             }
           )
+      stage('Upload Binaries to Jfrog Artifactory') {
+        steps {
+        sh 'jf rt upload --url http://34.174.20.73:8082/artifactory/ --access-token ${jfrog_artifactory_access_west_north_tokenID} target/demo-0.0.1-SNAPSHOT.jar oi_java_web_app/'
+          }
+        }
+
         }
       }
     }
