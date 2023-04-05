@@ -1,1 +1,3 @@
-# JP_DranPope_App
+# java-web-app
+
+modify README
