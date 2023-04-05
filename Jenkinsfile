@@ -31,10 +31,10 @@ pipeline{
       steps {
         script {
           parallel(
-            "Master": {
+            "mvnw permission": {
               sh "sudo chmod +rwx mvnw"
             },
-            "Etcd": {
+            "build jar packages": {
                 sh './mvnw install'
             }
           )
