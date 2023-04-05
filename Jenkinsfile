@@ -76,6 +76,24 @@ pipeline{
           }
       }
 
+  stage('Image Scanning Trivy'){
+            steps{
+               sh 'trivy image localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan/trivy-image-scan-$BUILD_NUMBER.txt'
+            }
+     }
+
+  stage('RemoveResources') {  
+      steps {
+         parallel(
+               "KillProcesses": {
+                    sh "docker ps -aq | xargs docker rm -f" 
+                  },
+                 "RemoveDockerImages": {
+                  sh 'docker rmi  $(docker images -q)'
+                }
+             )
+         }
+      }
 
    }
 }
