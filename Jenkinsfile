@@ -19,6 +19,7 @@ pipeline{
               REGISTRY_CREDENTIAL = 'eagunuworld_dockerhub_creds'
                CI = true
               JFROG_TOKEN = credentials('jfrog_artifactory_access_west_north_tokenID') 
+              JFROG_PWD   = "eagunworld_jfrog_passwordID"
             }
 
     stages {
