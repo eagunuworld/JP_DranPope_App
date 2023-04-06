@@ -19,7 +19,7 @@ pipeline{
               REGISTRY_CREDENTIAL = 'eagunuworld_dockerhub_creds'
                CI = true
               JFROG_TOKEN = credentials('jfrog_artifactory_access_west_north_tokenID') 
-              JFROG_PWD   = "eagunworld_jfrog_passwordID"
+              JFROG_PWD   = credentials('jfrog_artifactory_access_west_north_tokenID')
             }
 
     stages {
@@ -92,7 +92,7 @@ pipeline{
   stage('Pushing Docker Image into Jfrog'){
          steps{
              sh '''
-             docker login java-web-app-docker.jfrog.io -u admin -p ${eagunworld_jfrog_passwordID}
+             docker login java-web-app-docker.jfrog.io -u admin -p ${JFROG_PWD}
              docker push localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER
              '''
         }
