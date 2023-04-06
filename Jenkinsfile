@@ -71,7 +71,7 @@ pipeline{
   stage('Building Docker Image'){
           steps{
               sh '''
-              docker build -t localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER --pull=true .
+              docker build -t http://34.174.20.73:8082/oi_java_web_app/demoapp:$BUILD_NUMBER --pull=true .
               docker images
               '''
           }
@@ -79,7 +79,7 @@ pipeline{
 
   stage('Image Scanning Trivy'){
             steps{
-               sh 'trivy image localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan-$BUILD_NUMBER.txt'
+               sh 'trivy image http://34.174.20.73:8082/oi_java_web_app/demoapp:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan-$BUILD_NUMBER.txt'
             }
         }
 
@@ -93,8 +93,7 @@ pipeline{
          steps{
              sh '''
              docker login java-web-app-docker.jfrog.io -u admin -p ${JFROG_PWD}
-             sh 'docker build -t ${REGISTRY}:${VERSION} .'
-             sh 'docker push ${REGISTRY}:${VERSION}'
+             docker push http://34.174.20.73:8082/java-web-app-docker/demoapp:$BUILD_NUMBER
              '''
         }
      }
