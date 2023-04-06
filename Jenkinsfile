@@ -93,7 +93,7 @@ pipeline{
          steps{
              sh '''
              docker login java-web-app-docker.jfrog.io -u admin -p ${JFROG_PWD}
-             docker push localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER
+             docker push http://34.174.20.73:8082/java-web-app-docker/demoapp:$BUILD_NUMBER
              '''
         }
      }
