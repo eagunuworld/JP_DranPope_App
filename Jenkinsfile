@@ -89,15 +89,24 @@ pipeline{
          }
      }
 
-  stage('Push Docker Image To DockerHub') {
-        steps {
-            withCredentials([string(credentialsId: 'eagunworld_jfrog_passwordID', variable: 'eagunworld_jfrog_passwordDP')])  {
-              sh "docker login -u admin -p ${eagunworld_jfrog_passwordID} "
-              sh 'docker build -t ${REGISTRY}:${VERSION} .'
-                }
-                 sh 'docker push ${REGISTRY}:${VERSION}'
-              }
-          }
+  stage('Pushing Docker Image into Jfrog'){
+         steps{
+             sh '''
+             docker login java-web-app-docker.jfrog.io -u admin -p ${eagunworld_jfrog_passwordID}
+             docker push localhost:8082/java-web-app-docker/demoapp:$BUILD_NUMBER
+             '''
+        }
+     }
+
+  // stage('Push Docker Image To DockerHub') {
+  //       steps {
+  //           withCredentials([string(credentialsId: 'eagunworld_jfrog_passwordID', variable: 'eagunworld_jfrog_passwordDP')])  {
+  //             sh "docker login -u admin -p ${eagunworld_jfrog_passwordID} "
+  //             sh 'docker build -t ${REGISTRY}:${VERSION} .'
+  //               }
+  //                sh 'docker push ${REGISTRY}:${VERSION}'
+  //             }
+  //         }
  
 
   stage('RemoveResources') {  
