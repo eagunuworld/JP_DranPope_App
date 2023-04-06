@@ -71,7 +71,7 @@ pipeline{
   stage('Building Docker Image'){
           steps{
               sh '''
-              docker build -t http://34.174.20.73:8082/oi_java_web_app/demoapp:$BUILD_NUMBER --pull=true .
+              docker build -t http://34.174.20.73:8082/oi_java_web_app:$BUILD_NUMBER --pull=true .
               docker images
               '''
           }
